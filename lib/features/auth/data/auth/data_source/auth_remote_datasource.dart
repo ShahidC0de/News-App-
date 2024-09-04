@@ -18,9 +18,21 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDatasource {
   AuthRemoteDataSourceImpl(this.supabaseClient);
   @override
   Future<String> signInWithEmailAndPassword(
-      {required String email, required String password}) {
-    // TODO: implement signInWithEmailAndPassword
-    throw UnimplementedError();
+      {required String email, required String password}) async {
+    try {
+      final authresponse = await supabaseClient.auth.signInWithPassword(
+        password: password,
+        email: email,
+      );
+      if (authresponse.user == null) {
+        throw ServerException('something is wrong');
+      }
+      return authresponse.toString();
+    } catch (e) {
+      throw ServerException(
+        e.toString(),
+      );
+    }
   }
 
   @override
@@ -40,7 +52,5 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDatasource {
     } catch (e) {
       throw ServerException(e.toString());
     }
-    // TODO: implement signUpWithEmailAndPassword
-    throw UnimplementedError();
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/core/theme/app_colors.dart';
+import 'package:news_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:news_app/features/auth/presentation/pages/sign_in_page.dart';
 import 'package:news_app/features/auth/presentation/widgets/auth_button.dart';
 import 'package:news_app/features/auth/presentation/widgets/auth_field.dart';
@@ -69,7 +71,16 @@ class _UserSignUpState extends State<UserSignUp> {
                 height: 20,
               ),
               AuthButton(
-                onpressed: () {},
+                onpressed: () {
+                  if (formkey.currentState!.validate()) {
+                    context.read<AuthBloc>().add(
+                          AuthSignupEvent(
+                              email: emailController.text,
+                              name: nameController.text,
+                              password: passwordController.text),
+                        );
+                  }
+                },
                 buttonText: 'Signup',
               ),
               const SizedBox(
