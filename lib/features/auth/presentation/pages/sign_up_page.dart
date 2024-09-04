@@ -66,7 +66,7 @@ class _UserSignUpState extends State<UserSignUp> {
                 obsecureText: true,
               ),
               const SizedBox(
-                height: 10,
+                height: 20,
               ),
               AuthButton(
                 onpressed: () {},
