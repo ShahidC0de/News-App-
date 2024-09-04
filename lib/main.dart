@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/core/app_secrets/secrets.dart';
 import 'package:news_app/core/theme/app_theme.dart';
 import 'package:news_app/features/auth/presentation/pages/splash_screen.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final supabaseClient = await Supabase.initialize(
+    anonKey: annonKey,
+    url: url,
+  );
+
   runApp(const MyApp());
 }
 

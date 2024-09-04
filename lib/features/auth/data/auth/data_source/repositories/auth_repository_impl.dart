@@ -26,7 +26,5 @@ class AuthRepositoryImpl implements AuthRepository {
     } on ServerException catch (e) {
       return left(Failure(message: e.message));
     }
-    // TODO: implement signUpWithEmailAndPassword
-    throw UnimplementedError();
   }
 }
