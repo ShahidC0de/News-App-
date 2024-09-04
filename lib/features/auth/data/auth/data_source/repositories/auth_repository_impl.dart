@@ -9,9 +9,18 @@ class AuthRepositoryImpl implements AuthRepository {
   const AuthRepositoryImpl(this.remoteDatasource);
   @override
   Future<Either<Failure, String>> signInWithEmailAndPassword(
-      {required String email, required String password}) {
-    // TODO: implement signInWithEmailAndPassword
-    throw UnimplementedError();
+      {required String email, required String password}) async {
+    try {
+      final response = await remoteDatasource.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return right(response);
+    } on ServerException catch (e) {
+      return left(
+        Failure(message: e.message),
+      );
+    }
   }
 
   @override
