@@ -1,6 +1,6 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:news_app/core/errors/failure.dart';
-import 'package:news_app/core/usecase/sign_up.dart';
+import 'package:news_app/core/usecase/use_case.dart';
 import 'package:news_app/features/auth/domain/repository/auth_repository.dart';
 
 class UserSignIn implements Usecase<String, UserSignInParams> {

@@ -16,6 +16,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         _userSignIn = userSignIn,
         super(AuthInitial()) {
     on<AuthSignupEvent>((event, emit) async {
+      emit(AuthLoading());
       final response = await _userSignUp(
         UserSignUpParams(
           name: event.name,
@@ -31,6 +32,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
     });
     on<AuthSignInEvent>((event, emit) async {
+      emit(AuthLoading());
       final response = await _userSignIn(
         UserSignInParams(
           email: event.email,
