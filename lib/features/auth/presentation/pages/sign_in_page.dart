@@ -4,7 +4,7 @@ import 'package:news_app/common/widgets/loader.dart';
 import 'package:news_app/core/theme/app_colors.dart';
 import 'package:news_app/core/utils/show_snackbar.dart';
 import 'package:news_app/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:news_app/features/auth/presentation/pages/home_page.dart';
+import 'package:news_app/features/home/presentation/pages/home_page.dart';
 import 'package:news_app/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:news_app/features/auth/presentation/widgets/auth_button.dart';
 import 'package:news_app/features/auth/presentation/widgets/auth_field.dart';
