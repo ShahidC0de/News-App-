@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class CustomImageViewer extends StatelessWidget {
+class CategoryItem extends StatelessWidget {
   final String imageLink;
-  const CustomImageViewer({required this.imageLink, super.key});
+  const CategoryItem({required this.imageLink, super.key});
 
   @override
   Widget build(BuildContext context) {

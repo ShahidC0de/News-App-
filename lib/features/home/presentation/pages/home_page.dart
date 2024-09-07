@@ -1,6 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/features/home/presentation/widgets/category_item.dart';
+import 'package:news_app/features/home/presentation/widgets/headline_Item.dart';
+import 'package:news_app/features/home/presentation/widgets/news_item.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,37 +19,97 @@ class _HomePageState extends State<HomePage> {
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIwooPYm6Jt3_aTPdleOcNPrSlqLiyeEOvVg&s", // business
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6I6CmvD2Wp8DnKfXU3hsskWMyx4cqtN3_NA&s" // technology
   ];
+
+  late PageController _pageController;
+
+  @override
+  void initState() {
+    _pageController = PageController(viewportFraction: 0.8); // 80% width
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('News'),
+        actions: const [
+          Padding(
+            padding: EdgeInsets.only(right: 8),
+            child: Icon(
+              Icons.menu,
+              size: 30,
+            ),
+          ),
+        ],
+        centerTitle: true,
+        title: const Text(
+          'N E W S',
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Padding(
-              padding: EdgeInsets.all(8),
-              child: Row(
+      body: CustomScrollView(
+        slivers: [
+          // Categories section
+          SliverToBoxAdapter(
+            child: SizedBox(
+              height: 150,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
                   children: List.generate(imageList.length, (index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: CategoryItem(imageLink: imageList[index]),
+                    );
+                  }),
+                ),
+              ),
+            ),
+          ),
+          const SliverToBoxAdapter(
+            child: SizedBox(height: 12),
+          ),
+
+          // Headlines section (PageView)
+          SliverToBoxAdapter(
+            child: SizedBox(
+              height: 360,
+              child: PageView.builder(
+                controller: _pageController,
+                itemCount: imageList.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: HeadLineItem(
+                      headLinesText: "headLinesText",
+                      imageLink: imageList[index],
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+          const SliverToBoxAdapter(
+            child: SizedBox(height: 12),
+          ),
+
+          // News section (Scrollable list of items)
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (context, index) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Column(
-                    children: [
-                      CustomImageViewer(
-                        imageLink: imageList[index],
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      )
-                    ],
+                  padding: const EdgeInsets.all(8),
+                  child: NewsItem(
+                    headLinesText: "headLinesText",
+                    imageLink: imageList[index],
                   ),
                 );
-              })),
+              },
+              childCount: imageList.length,
             ),
-          )
+          ),
         ],
       ),
     );
