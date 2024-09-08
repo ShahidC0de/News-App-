@@ -1,25 +1,28 @@
-class NewsModel {
+import 'package:news_app/features/home/domain/entities/news.dart';
+
+class NewsModel extends News {
   final String? sourceId;
-  final String sourceName;
   final String? author;
-  final String title;
   final String? description;
-  final String url;
   final String? urlToImage;
-  final String publishedAt;
   final String? content;
 
   NewsModel({
     this.sourceId,
-    required this.sourceName,
+    required String sourceName, // Match the parent class constructor
     this.author,
-    required this.title,
+    required String title, // Match the parent class constructor
     this.description,
-    required this.url,
+    required String url, // Match the parent class constructor
     this.urlToImage,
-    required this.publishedAt,
+    required String publishedAt, // Match the parent class constructor
     this.content,
-  });
+  }) : super(
+          sourceName: sourceName,
+          title: title,
+          url: url,
+          publishedAt: publishedAt,
+        );
 
   // From JSON method
   factory NewsModel.fromJson(Map<String, dynamic> json) {
