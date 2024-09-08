@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/core/theme/app_colors.dart';
 import 'package:news_app/features/home/presentation/widgets/category_item.dart';
-import 'package:news_app/features/home/presentation/widgets/headline_Item.dart';
+import 'package:news_app/features/home/presentation/widgets/headline_item.dart';
 import 'package:news_app/features/home/presentation/widgets/news_item.dart';
 
 class HomePage extends StatefulWidget {
