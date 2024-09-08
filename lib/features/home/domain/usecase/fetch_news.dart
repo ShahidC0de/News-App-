@@ -4,9 +4,9 @@ import 'package:news_app/core/usecase/fetchnews_use_case.dart';
 import 'package:news_app/features/home/domain/entities/news.dart';
 import 'package:news_app/features/home/domain/repository/home_repository.dart';
 
-class FetchEveryNews implements FetchnewsUseCase {
+class FetchAllEverythingNews implements FetchnewsUseCase {
   final HomeRepository homeRepository;
-  const FetchEveryNews({
+  const FetchAllEverythingNews({
     required this.homeRepository,
   });
   @override

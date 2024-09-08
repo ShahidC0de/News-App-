@@ -4,6 +4,7 @@ import 'package:news_app/core/init_dependencies.dart';
 import 'package:news_app/core/theme/app_theme.dart';
 import 'package:news_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:news_app/features/auth/presentation/pages/splash_screen.dart';
+import 'package:news_app/features/home/presentation/bloc/home_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,6 +14,9 @@ void main() async {
     providers: [
       BlocProvider(
         create: (_) => serviceLocator<AuthBloc>(),
+      ),
+      BlocProvider(
+        create: (_) => serviceLocator<HomeBloc>(),
       ),
     ],
     child: const MyApp(),

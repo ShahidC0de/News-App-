@@ -9,20 +9,15 @@ class NewsModel extends News {
 
   NewsModel({
     this.sourceId,
-    required String sourceName, // Match the parent class constructor
+    required super.sourceName, // Match the parent class constructor
     this.author,
-    required String title, // Match the parent class constructor
+    required super.title, // Match the parent class constructor
     this.description,
-    required String url, // Match the parent class constructor
+    required super.url, // Match the parent class constructor
     this.urlToImage,
-    required String publishedAt, // Match the parent class constructor
+    required super.publishedAt, // Match the parent class constructor
     this.content,
-  }) : super(
-          sourceName: sourceName,
-          title: title,
-          url: url,
-          publishedAt: publishedAt,
-        );
+  });
 
   // From JSON method
   factory NewsModel.fromJson(Map<String, dynamic> json) {

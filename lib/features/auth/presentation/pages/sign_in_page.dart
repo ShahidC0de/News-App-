@@ -31,17 +31,20 @@ class _SignInPageState extends State<SignInPage> {
             if (state is AuthFailure) {
               showSnackBar(context, state.message);
             }
+            if (state is AuthSuccess) {
+              // Fix: Use an anonymous function and remove the function name
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => const HomePage(),
+                  ),
+                );
+              });
+            }
           },
           builder: (context, state) {
             if (state is AuthLoading) {
               return const Loader();
-            }
-            if (state is AuthSuccess) {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => const HomePage(),
-                ),
-              );
             }
             return Form(
               key: formKey1,
@@ -56,24 +59,18 @@ class _SignInPageState extends State<SignInPage> {
                       fontSize: 35,
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  const SizedBox(height: 20),
                   AuthField(
                     hintText: 'Email',
                     controller: _emailController,
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  const SizedBox(height: 10),
                   AuthField(
                     hintText: 'Password',
                     controller: _passwordController,
                     obsecureText: true,
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  const SizedBox(height: 20),
                   AuthButton(
                     buttonText: 'Signin',
                     onpressed: () {
@@ -87,9 +84,7 @@ class _SignInPageState extends State<SignInPage> {
                       }
                     },
                   ),
-                  const SizedBox(
-                    height: 5,
-                  ),
+                  const SizedBox(height: 5),
                   GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(
@@ -100,21 +95,23 @@ class _SignInPageState extends State<SignInPage> {
                     },
                     child: RichText(
                       text: TextSpan(
-                          text: "Don't have an account? ",
-                          style:
-                              Theme.of(context).textTheme.titleMedium?.copyWith(
-                                    color: AppColors.greyColor,
-                                  ),
-                          children: [
-                            TextSpan(
-                                text: "Sign up ",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleMedium
-                                    ?.copyWith(
-                                      color: AppColors.textColor,
-                                    ))
-                          ]),
+                        text: "Don't have an account? ",
+                        style:
+                            Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  color: AppColors.greyColor,
+                                ),
+                        children: [
+                          TextSpan(
+                            text: "Sign up ",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.copyWith(
+                                  color: AppColors.textColor,
+                                ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
