@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/core/theme/app_colors.dart';
 import 'package:news_app/features/home/presentation/widgets/category_item.dart';
 import 'package:news_app/features/home/presentation/widgets/headline_Item.dart';
 import 'package:news_app/features/home/presentation/widgets/news_item.dart';
@@ -19,6 +20,21 @@ class _HomePageState extends State<HomePage> {
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIwooPYm6Jt3_aTPdleOcNPrSlqLiyeEOvVg&s", // business
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6I6CmvD2Wp8DnKfXU3hsskWMyx4cqtN3_NA&s" // technology
   ];
+  List<String> channelsNames = [
+    "BBC",
+    "Al Jazeera",
+    "CCN",
+    "ESPN",
+    "The Washington Post",
+    "CBS",
+    "ABC",
+    "NBC",
+    "Bloomberg"
+        "Fox",
+    "The Guardian ",
+    "The New York Times",
+    "Reuters "
+  ];
 
   late PageController _pageController;
 
@@ -32,21 +48,32 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: const [
-          Padding(
-            padding: EdgeInsets.only(right: 8),
-            child: Icon(
-              Icons.menu,
-              size: 30,
-            ),
-          ),
-        ],
         centerTitle: true,
         title: const Text(
           'N E W S',
           style: TextStyle(
             fontWeight: FontWeight.w600,
           ),
+        ),
+      ),
+      drawer: Drawer(
+        backgroundColor: AppColors.borderColor,
+        child: ListView(
+          children: [
+            const DrawerHeader(
+              child: Text(
+                'AVAILABLE CHANNELS',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            ...channelsNames.map((channel) {
+              return ListTile(
+                title: Text(channel),
+              );
+            })
+          ],
         ),
       ),
       body: CustomScrollView(
