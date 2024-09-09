@@ -1,6 +1,5 @@
 import 'package:get_it/get_it.dart';
 import 'package:news_app/core/app_secrets/secrets.dart';
-import 'package:news_app/core/usecase/fetchnews_use_case.dart';
 import 'package:news_app/features/auth/data/auth/data_source/auth_remote_datasource.dart';
 import 'package:news_app/features/auth/data/auth/data_source/repositories/auth_repository_impl.dart';
 import 'package:news_app/features/auth/domain/repository/auth_repository.dart';
@@ -62,7 +61,7 @@ void _initNewsBloc() {
   serviceLocator.registerFactory<HomeRemoteDatasource>(
     () => HomeRemoteDataSourceImpl(
       apikey: newsAPIKey,
-      httpClient: serviceLocator(),
+      httpClient: serviceLocator<http.Client>(),
     ),
   );
   serviceLocator.registerFactory<HomeRepository>(
@@ -70,12 +69,12 @@ void _initNewsBloc() {
       homeRemoteDatasource: serviceLocator(),
     ),
   );
-  serviceLocator.registerFactory<FetchnewsUseCase>(
+  serviceLocator.registerFactory(
     () => FetchAllEverythingNews(
       homeRepository: serviceLocator(),
     ),
   );
-  serviceLocator.registerFactory<FetchTopHeadlinesUseCase>(
+  serviceLocator.registerFactory(
     () => FetchTopHeadlinesNews(
       homeRepository: serviceLocator(),
     ),

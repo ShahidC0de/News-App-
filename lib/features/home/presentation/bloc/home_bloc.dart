@@ -21,7 +21,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       response.fold(
         (l) => emit(HomeError(message: l.message)),
         (newslist) => emit(
-          HomeSuccess(newsList: newslist),
+          HomeEveryNewsSuccess(newsList: newslist),
         ),
       );
     });
@@ -33,7 +33,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           HomeError(message: l.message),
         ),
         (newsList) => emit(
-          HomeSuccess(newsList: newsList),
+          HomeTopHeadtitlesNewsSuccess(newsList: newsList),
         ),
       );
     });

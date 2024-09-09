@@ -14,9 +14,16 @@ final class HomeError extends HomeState {
   });
 }
 
-final class HomeSuccess extends HomeState {
+final class HomeTopHeadtitlesNewsSuccess extends HomeState {
   final List<News> newsList;
-  HomeSuccess({
+  HomeTopHeadtitlesNewsSuccess({
+    required this.newsList,
+  });
+}
+
+final class HomeEveryNewsSuccess extends HomeState {
+  final List<News> newsList;
+  HomeEveryNewsSuccess({
     required this.newsList,
   });
 }

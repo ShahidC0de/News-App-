@@ -10,18 +10,14 @@ class HeadLineItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(shape: BoxShape.rectangle, boxShadow: [
-        BoxShadow(
-          color: AppColors.borderColor,
-          blurRadius: 12,
-          spreadRadius: 0.1,
-          offset: Offset(2, 2),
-        )
-      ]),
+      decoration: const BoxDecoration(
+        shape: BoxShape.rectangle,
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.network(
+            height: 250,
             fit: BoxFit.cover,
             imageLink,
           ),

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app/common/widgets/loader.dart';
 import 'package:news_app/core/theme/app_colors.dart';
+import 'package:news_app/features/home/presentation/bloc/home_bloc.dart';
 import 'package:news_app/features/home/presentation/widgets/category_item.dart';
 import 'package:news_app/features/home/presentation/widgets/headline_item.dart';
 import 'package:news_app/features/home/presentation/widgets/news_item.dart';
@@ -35,11 +38,16 @@ class _HomePageState extends State<HomePage> {
     "The New York Times",
     "Reuters "
   ];
+  void _loadData() {
+    context.read<HomeBloc>().add(FetchEveryNews());
+    context.read<HomeBloc>().add(FetchTopHeadlines());
+  }
 
   late PageController _pageController;
 
   @override
   void initState() {
+    _loadData();
     _pageController = PageController(viewportFraction: 0.8); // 80% width
     super.initState();
   }
@@ -102,41 +110,71 @@ class _HomePageState extends State<HomePage> {
           // Headlines section (PageView)
           SliverToBoxAdapter(
             child: SizedBox(
-              height: 360,
-              child: PageView.builder(
-                controller: _pageController,
-                itemCount: imageList.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: HeadLineItem(
-                      headLinesText: "headLinesText",
-                      imageLink: imageList[index],
-                    ),
-                  );
-                },
-              ),
-            ),
+                height: 360,
+                child:
+                    BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
+                  if (state is HomeLoading) {
+                    return const Loader();
+                  } else if (state is HomeError) {
+                    return Center(
+                      child: Text(state.message),
+                    );
+                  } else if (state is HomeTopHeadtitlesNewsSuccess) {
+                    return PageView.builder(
+                      controller: _pageController,
+                      itemCount: state.newsList.length,
+                      itemBuilder: (context, index) {
+                        final news = state.newsList[index];
+                        return Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: HeadLineItem(
+                            headLinesText: news.title,
+                            imageLink: news.urlToImage ??
+                                "https://t4.ftcdn.net/jpg/05/24/04/51/360_F_524045110_UXnCx4GEDapddDi5tdlY96s4g0MxHRvt.jpg",
+                          ),
+                        );
+                      },
+                    );
+                  }
+                  return const SizedBox();
+                })),
           ),
           const SliverToBoxAdapter(
             child: SizedBox(height: 12),
           ),
 
           // News section (Scrollable list of items)
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: NewsItem(
-                    headLinesText: "headLinesText",
-                    imageLink: imageList[index],
-                  ),
-                );
-              },
-              childCount: imageList.length,
-            ),
-          ),
+          // SliverList(
+          //   delegate: SliverChildBuilderDelegate(
+          //     (context, index) {
+          //       return BlocBuilder<HomeBloc, HomeState>(
+          //           builder: (context, state) {
+          //         if (state is HomeLoading) {
+          //           return const Loader();
+          //         } else if (state is HomeError) {
+          //           return Center(
+          //             child: Text(state.message),
+          //           );
+          //         } else if (state is HomeEveryNewsSuccess) {
+          //           return ListView.builder(
+          //               itemCount: state.newsList.length,
+          //               itemBuilder: (context, index) {
+          //                 final news = state.newsList[index];
+          //                 return Padding(
+          //                   padding: const EdgeInsets.all(6),
+          //                   child: NewsItem(
+          //                     headLinesText: news.title,
+          //                     imageLink: news.urlToImage ??
+          //                         "https://t4.ftcdn.net/jpg/05/24/04/51/360_F_524045110_UXnCx4GEDapddDi5tdlY96s4g0MxHRvt.jpg",
+          //                   ),
+          //                 );
+          //               });
+          //         }
+          //         return const SizedBox();
+          //       });
+          //     },
+          //   ),
+          // ),
         ],
       ),
     );

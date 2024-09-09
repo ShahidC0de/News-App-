@@ -1,10 +1,17 @@
+// ignore_for_file: overridden_fields
+
 import 'package:news_app/features/home/domain/entities/news.dart';
 
 class NewsModel extends News {
+  @override
   final String? sourceId;
+  @override
   final String? author;
+  @override
   final String? description;
+  @override
   final String? urlToImage;
+  @override
   final String? content;
 
   NewsModel({
@@ -49,5 +56,19 @@ class NewsModel extends News {
       'publishedAt': publishedAt,
       'content': content,
     };
+  }
+
+  News convertToNews(NewsModel model) {
+    return News(
+      sourceName: model.sourceName,
+      title: model.title,
+      url: model.url,
+      publishedAt: model.publishedAt,
+      sourceId: model.sourceId,
+      author: model.author,
+      description: model.description,
+      urlToImage: model.urlToImage,
+      content: model.content,
+    );
   }
 }
