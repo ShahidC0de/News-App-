@@ -7,23 +7,23 @@ final class HomeInitial extends HomeState {}
 
 final class HomeLoading extends HomeState {}
 
-final class HomeError extends HomeState {
+final class HomeFailure extends HomeState {
   final String message;
-  HomeError({
+  HomeFailure({
     required this.message,
   });
 }
 
-final class HomeTopHeadtitlesNewsSuccess extends HomeState {
+final class HomeTopTitlesSuccess extends HomeState {
   final List<News> newsList;
-  HomeTopHeadtitlesNewsSuccess({
+  HomeTopTitlesSuccess({
     required this.newsList,
   });
 }
 
-final class HomeEveryNewsSuccess extends HomeState {
+final class HomeGeneralNewsSuccess extends HomeState {
   final List<News> newsList;
-  HomeEveryNewsSuccess({
+  HomeGeneralNewsSuccess({
     required this.newsList,
   });
 }

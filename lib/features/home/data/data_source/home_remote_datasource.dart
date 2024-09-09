@@ -36,7 +36,7 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDatasource {
   @override
   Future<List<NewsModel>> fetchEverything() async {
     return _fetchNews(
-        'https://newsapi.org/v2/everything?language=en&apiKey=$apikey');
+        'https://newsapi.org/v2/everything?q=general&apiKey=$apikey');
   }
 
   @override
