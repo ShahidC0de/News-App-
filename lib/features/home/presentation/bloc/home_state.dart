@@ -5,18 +5,18 @@ sealed class HomeState {}
 
 final class HomeInitial extends HomeState {}
 
-final class HomeLoading extends HomeState {}
+final class HomeTopHeadlinesLoading extends HomeState {}
 
-final class HomeFailure extends HomeState {
+final class HomeTopHeadlinesFailure extends HomeState {
   final String message;
-  HomeFailure({
+  HomeTopHeadlinesFailure({
     required this.message,
   });
 }
 
-final class HomeTopTitlesSuccess extends HomeState {
+final class HomeTopHeadlinesSuccess extends HomeState {
   final List<News> newsList;
-  HomeTopTitlesSuccess({
+  HomeTopHeadlinesSuccess({
     required this.newsList,
   });
 }

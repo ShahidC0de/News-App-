@@ -17,24 +17,24 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         _fetchTopHeadlines = fetchTopHeadlines,
         super(HomeInitial()) {
     on<FetchEveryNews>((event, emit) async {
-      emit(HomeLoading());
+      emit(HomeGeneralNewsLoading());
       final response = await _fetchEveryNews();
       response.fold(
-        (l) => emit(HomeFailure(message: l.message)),
+        (l) => emit(HomeGeneralNewsFailure(message: l.message)),
         (newslist) => emit(
           HomeGeneralNewsSuccess(newsList: newslist),
         ),
       );
     });
     on<FetchTopHeadlines>((event, emit) async {
-      emit(HomeLoading());
+      emit(HomeTopHeadlinesLoading());
       final response = await _fetchTopHeadlines();
       response.fold(
         (l) => emit(
-          HomeFailure(message: l.message),
+          HomeTopHeadlinesFailure(message: l.message),
         ),
         (newsList) => emit(
-          HomeTopTitlesSuccess(newsList: newsList),
+          HomeTopHeadlinesSuccess(newsList: newsList),
         ),
       );
     });

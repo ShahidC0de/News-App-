@@ -79,7 +79,7 @@ void _initNewsBloc() {
       homeRepository: serviceLocator(),
     ),
   );
-  serviceLocator.registerLazySingleton<HomeBloc>(
+  serviceLocator.registerFactory<HomeBloc>(
     () => HomeBloc(
       fetchEveryNews: serviceLocator(),
       fetchTopHeadlines: serviceLocator(),

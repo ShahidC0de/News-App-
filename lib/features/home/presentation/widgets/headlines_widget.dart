@@ -21,13 +21,13 @@ class _HeadlinesWidgetState extends State<HeadlinesWidget> {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
-        if (state is HomeLoading) {
+        if (state is HomeTopHeadlinesLoading) {
           return const Loader();
-        } else if (state is HomeFailure) {
+        } else if (state is HomeTopHeadlinesFailure) {
           return Center(
             child: Text(state.message),
           );
-        } else if (state is HomeTopTitlesSuccess) {
+        } else if (state is HomeTopHeadlinesSuccess) {
           return SizedBox(
             height: MediaQuery.of(context).size.height / 3,
             width: MediaQuery.of(context).size.height * 1,

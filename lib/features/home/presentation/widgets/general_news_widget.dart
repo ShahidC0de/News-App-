@@ -16,9 +16,9 @@ class _GeneralNewsWidgetState extends State<GeneralNewsWidget> {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
-        if (state is HomeLoading) {
+        if (state is HomeTopHeadlinesLoading) {
           return const Loader();
-        } else if (state is HomeFailure) {
+        } else if (state is HomeTopHeadlinesFailure) {
           return Center(
             child: Text(state.message),
           );
