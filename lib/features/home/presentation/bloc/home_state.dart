@@ -20,10 +20,3 @@ final class HomeTopHeadlinesSuccess extends HomeState {
     required this.newsList,
   });
 }
-
-final class HomeGeneralNewsSuccess extends HomeState {
-  final List<News> newsList;
-  HomeGeneralNewsSuccess({
-    required this.newsList,
-  });
-}

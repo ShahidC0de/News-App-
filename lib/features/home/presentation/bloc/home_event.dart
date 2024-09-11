@@ -4,5 +4,3 @@ part of 'home_bloc.dart';
 sealed class HomeEvent {}
 
 class FetchTopHeadlines extends HomeEvent {}
-
-class FetchEveryNews extends HomeEvent {}

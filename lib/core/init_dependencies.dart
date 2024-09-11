@@ -10,6 +10,7 @@ import 'package:news_app/features/home/data/data_source/home_remote_datasource.d
 import 'package:news_app/features/home/data/data_source/repository/home_repository_impl.dart';
 import 'package:news_app/features/home/domain/repository/home_repository.dart';
 import 'package:news_app/features/home/domain/usecase/fetch_news.dart';
+import 'package:news_app/features/home/presentation/bloc/general_news_bloc_bloc.dart';
 import 'package:news_app/features/home/presentation/bloc/home_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -79,10 +80,14 @@ void _initNewsBloc() {
       homeRepository: serviceLocator(),
     ),
   );
-  serviceLocator.registerFactory<HomeBloc>(
+  serviceLocator.registerLazySingleton<HomeBloc>(
     () => HomeBloc(
-      fetchEveryNews: serviceLocator(),
       fetchTopHeadlines: serviceLocator(),
+    ),
+  );
+  serviceLocator.registerLazySingleton(
+    () => GeneralNewsBlocBloc(
+      fetchEveryNews: serviceLocator(),
     ),
   );
 }

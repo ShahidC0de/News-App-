@@ -20,6 +20,7 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDatasource {
     try {
       final uri = Uri.parse(endPoint);
       final response = await httpClient.get(uri);
+
       if (response.statusCode == 200) {
         final jsonString = response.body;
         final jsonFormat = await jsonDecode(jsonString);

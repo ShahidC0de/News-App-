@@ -4,6 +4,7 @@ import 'package:news_app/core/init_dependencies.dart';
 import 'package:news_app/core/theme/app_theme.dart';
 import 'package:news_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:news_app/features/auth/presentation/pages/splash_screen.dart';
+import 'package:news_app/features/home/presentation/bloc/general_news_bloc_bloc.dart';
 import 'package:news_app/features/home/presentation/bloc/home_bloc.dart';
 
 void main() async {
@@ -18,6 +19,7 @@ void main() async {
       BlocProvider(
         create: (_) => serviceLocator<HomeBloc>(),
       ),
+      BlocProvider(create: (_) => serviceLocator<GeneralNewsBlocBloc>()),
     ],
     child: const MyApp(),
   ));
