@@ -6,6 +6,7 @@ import 'package:news_app/core/theme/app_colors.dart';
 import 'package:news_app/core/utils/show_snackbar.dart';
 import 'package:news_app/features/home/presentation/bloc/general_news_bloc_bloc.dart';
 import 'package:news_app/features/home/presentation/bloc/home_bloc.dart';
+import 'package:news_app/features/news_view/presentation/pages/news_view.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -98,18 +99,21 @@ class _HomePageState extends State<HomePage> {
           );
         }
         if (state is HomeTopHeadlinesSuccess) {
-          return GestureDetector(
-            onTap: () {},
-            child: SizedBox(
-              height: 250, // Adjust the height to make it prominent
-              child: Stack(
-                children: [
-                  PageView.builder(
-                    controller: _pageController,
-                    itemCount: state.newsList.length,
-                    itemBuilder: (context, index) {
-                      final news = state.newsList[index];
-                      return Stack(
+          return SizedBox(
+            height: 250, // Adjust the height to make it prominent
+            child: Stack(
+              children: [
+                PageView.builder(
+                  controller: _pageController,
+                  itemCount: state.newsList.length,
+                  itemBuilder: (context, index) {
+                    final news = state.newsList[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => NewsView(newsData: news)));
+                      },
+                      child: Stack(
                         children: [
                           // Background image for the headline
                           Positioned.fill(
@@ -159,33 +163,33 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                         ],
-                      );
-                    },
-                  ),
-                  // Add PageView indicator
-                  Positioned(
-                    bottom: 8.0,
-                    right: 16.0,
-                    child: Row(
-                      children: List.generate(
-                        state.newsList.length,
-                        (index) => Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 2.0),
-                          width: 8.0,
-                          height: 8.0,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: _pageController.hasClients &&
-                                    _pageController.page!.round() == index
-                                ? Colors.white
-                                : Colors.grey,
-                          ),
+                      ),
+                    );
+                  },
+                ),
+                // Add PageView indicator
+                Positioned(
+                  bottom: 8.0,
+                  right: 16.0,
+                  child: Row(
+                    children: List.generate(
+                      state.newsList.length,
+                      (index) => Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 2.0),
+                        width: 8.0,
+                        height: 8.0,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: _pageController.hasClients &&
+                                  _pageController.page!.round() == index
+                              ? Colors.white
+                              : Colors.grey,
                         ),
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           );
         }
@@ -218,7 +222,10 @@ class _HomePageState extends State<HomePage> {
             itemBuilder: (context, index) {
               final news = state.newsList[index];
               return GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => NewsView(newsData: news)));
+                },
                 child: Card(
                   color: AppColors.borderColor,
                   elevation: 2.0,
