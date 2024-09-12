@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/common/entities/news.dart';
 import 'package:news_app/core/theme/app_colors.dart';
@@ -16,6 +17,15 @@ class _NewsViewState extends State<NewsView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Container(
+            decoration: BoxDecoration(
+                color: AppColors.blueColor.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(10)),
+            child: IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: Icon(CupertinoIcons.back))),
         centerTitle: true,
         title: const Text(
           'News Details',
