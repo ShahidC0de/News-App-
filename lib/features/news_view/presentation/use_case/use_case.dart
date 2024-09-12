@@ -1,4 +1,4 @@
-import 'package:fpdart/src/either.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:news_app/common/entities/news.dart';
 import 'package:news_app/core/errors/failure.dart';
 import 'package:news_app/core/usecase/fetch_related_news_usecase.dart';

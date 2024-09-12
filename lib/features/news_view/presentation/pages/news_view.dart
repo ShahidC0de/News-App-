@@ -25,7 +25,7 @@ class _NewsViewState extends State<NewsView> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                icon: Icon(CupertinoIcons.back))),
+                icon: const Icon(CupertinoIcons.back))),
         centerTitle: true,
         title: const Text(
           'News Details',
