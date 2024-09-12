@@ -12,6 +12,11 @@ import 'package:news_app/features/home/domain/repository/home_repository.dart';
 import 'package:news_app/features/home/domain/usecase/fetch_news.dart';
 import 'package:news_app/features/home/presentation/bloc/general_news_bloc_bloc.dart';
 import 'package:news_app/features/home/presentation/bloc/home_bloc.dart';
+import 'package:news_app/features/news_view/data/related_news_remote_datasource.dart';
+import 'package:news_app/features/news_view/data/repository/related_news_repository_impl.dart';
+import 'package:news_app/features/news_view/domain/repository/related_news_repository.dart';
+import 'package:news_app/features/news_view/presentation/bloc/related_news_bloc.dart';
+import 'package:news_app/features/news_view/presentation/use_case/use_case.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:http/http.dart' as http;
 
@@ -19,6 +24,7 @@ final serviceLocator = GetIt.instance;
 Future<void> initDependencies() async {
   _initAuth();
   _initNewsBloc();
+  _initRelatedNewsBloc();
   final supabase = await Supabase.initialize(
     anonKey: annonKey,
     url: url,
@@ -90,4 +96,16 @@ void _initNewsBloc() {
       fetchEveryNews: serviceLocator(),
     ),
   );
+}
+
+void _initRelatedNewsBloc() async {
+  serviceLocator.registerFactory<RelatedNewsRemoteDataSource>(() =>
+      RelatedNewsRemoteDataSourceImpl(
+          httpClient: serviceLocator(), apiKey: newsAPIKey));
+  serviceLocator.registerFactory<RelatedNewsRepository>(() =>
+      RelatedNewsRepositoryImpl(relatedNewsRemoteDataSource: serviceLocator()));
+  serviceLocator.registerFactory(
+      () => FetchTheRelatedNews(relatedNewsRepository: serviceLocator()));
+  serviceLocator.registerLazySingleton(
+      () => RelatedNewsBloc(fetchTherelatedNews: serviceLocator()));
 }
