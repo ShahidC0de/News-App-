@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import 'package:news_app/core/errors/exceptions.dart';
-import 'package:news_app/features/home/data/models/top_headlines_model.dart';
+import 'package:news_app/common/models/news_model.dart';
 
 abstract interface class HomeRemoteDatasource {
   Future<List<NewsModel>> fetchTopHeadlines();

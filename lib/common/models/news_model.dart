@@ -1,6 +1,6 @@
 // ignore_for_file: overridden_fields
 
-import 'package:news_app/features/home/domain/entities/news.dart';
+import 'package:news_app/common/entities/news.dart';
 
 class NewsModel extends News {
   @override

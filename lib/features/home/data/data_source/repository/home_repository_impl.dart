@@ -2,7 +2,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:news_app/core/errors/exceptions.dart';
 import 'package:news_app/core/errors/failure.dart';
 import 'package:news_app/features/home/data/data_source/home_remote_datasource.dart';
-import 'package:news_app/features/home/domain/entities/news.dart';
+import 'package:news_app/common/entities/news.dart';
 import 'package:news_app/features/home/domain/repository/home_repository.dart';
 
 class HomeRepositoryImpl implements HomeRepository {

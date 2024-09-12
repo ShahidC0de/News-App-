@@ -6,7 +6,6 @@ import 'package:news_app/core/theme/app_colors.dart';
 import 'package:news_app/core/utils/show_snackbar.dart';
 import 'package:news_app/features/home/presentation/bloc/general_news_bloc_bloc.dart';
 import 'package:news_app/features/home/presentation/bloc/home_bloc.dart';
-import 'package:news_app/features/home/presentation/widgets/headline_item.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

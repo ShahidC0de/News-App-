@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app/features/home/domain/entities/news.dart';
+import 'package:news_app/common/entities/news.dart';
 import 'package:news_app/features/home/domain/usecase/fetch_news.dart';
 
 part 'home_event.dart';
