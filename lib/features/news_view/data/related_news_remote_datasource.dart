@@ -27,7 +27,7 @@ class RelatedNewsRemoteDataSourceImpl extends RelatedNewsRemoteDataSource {
       if (response.statusCode == 200) {
         final jsonString = response.body;
         final jsonFormat = await jsonDecode(jsonString);
-        final articles = await jsonFormat['article'] as List;
+        final articles = await jsonFormat['articles'] as List;
         return articles.map((article) => NewsModel.fromJson(article)).toList();
       } else {
         throw Exception();

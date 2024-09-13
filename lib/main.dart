@@ -6,6 +6,7 @@ import 'package:news_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:news_app/features/auth/presentation/pages/splash_screen.dart';
 import 'package:news_app/features/home/presentation/bloc/general_news_bloc_bloc.dart';
 import 'package:news_app/features/home/presentation/bloc/home_bloc.dart';
+import 'package:news_app/features/news_view/presentation/bloc/related_news_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +21,7 @@ void main() async {
         create: (_) => serviceLocator<HomeBloc>(),
       ),
       BlocProvider(create: (_) => serviceLocator<GeneralNewsBlocBloc>()),
+      BlocProvider(create: (_) => serviceLocator<RelatedNewsBloc>()),
     ],
     child: const MyApp(),
   ));

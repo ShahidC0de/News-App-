@@ -1,8 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/common/entities/news.dart';
+import 'package:news_app/common/widgets/loader.dart';
 import 'package:news_app/core/theme/app_colors.dart';
+import 'package:news_app/core/utils/show_snackbar.dart';
+import 'package:news_app/features/news_view/presentation/bloc/related_news_bloc.dart';
 import 'package:news_app/features/news_view/presentation/widgets/image_widget.dart';
+import 'package:news_app/features/news_view/presentation/widgets/related_news_container.dart';
 
 class NewsView extends StatefulWidget {
   final News newsData;
@@ -13,6 +18,19 @@ class NewsView extends StatefulWidget {
 }
 
 class _NewsViewState extends State<NewsView> {
+  @override
+  void initState() {
+    context.read<RelatedNewsBloc>().add(FetchingRelatedNews(
+          description: getKeyWords(widget.newsData.description ?? ""),
+          title: getKeyWords(widget.newsData.title),
+        ));
+    super.initState();
+  }
+
+  String getKeyWords(String text) {
+    return text.split(" ").take(3).join(" ");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,26 +115,93 @@ class _NewsViewState extends State<NewsView> {
               ),
               const SizedBox(height: 20),
 
-              // Related News Button (example for future enhancements)
-              Align(
-                alignment: Alignment.centerRight,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.borderColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  onPressed: () {
-                    // Placeholder for related news logic
-                  },
-                  child: const Text('View Related News'),
-                ),
-              ),
+              // Related News Section
+              const RelatedNewsSection(),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class RelatedNewsSection extends StatelessWidget {
+  const RelatedNewsSection({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Title for the Related News section
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 16.0),
+          child: Text(
+            'Related News',
+            style: TextStyle(
+              color: AppColors.textColor,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+
+        // Related News content with BlocConsumer
+        BlocConsumer<RelatedNewsBloc, RelatedNewsState>(
+          listener: (context, state) {
+            if (state is RelatedNewsFailure) {
+              return showSnackBar(context, state.message);
+            }
+          },
+          builder: (context, state) {
+            if (state is RelatedNewsLoading) {
+              return const Loader();
+            }
+
+            if (state is RelatedNewsSuccess) {
+              final relatedNews = state.newsList;
+
+              // If no related news, show a message
+              if (relatedNews.isEmpty) {
+                return const Center(
+                  child: Text(
+                    'No related news found',
+                    style: TextStyle(fontSize: 16, color: Colors.grey),
+                  ),
+                );
+              }
+
+              // Display the related news articles in a grid
+              return GridView.builder(
+                itemCount: relatedNews.length,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, // Two items in each row
+                  crossAxisSpacing: 16.0,
+                  mainAxisSpacing: 16.0,
+                  childAspectRatio: 0.75, // Adjust the item aspect ratio
+                ),
+                itemBuilder: (context, index) {
+                  final newsItem = relatedNews[index];
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => NewsView(newsData: newsItem)));
+                    },
+                    child: RelatedNewsContainer(
+                      imageUrl: newsItem.urlToImage ?? "",
+                      title: newsItem.title,
+                    ),
+                  );
+                },
+              );
+            }
+
+            return const SizedBox();
+          },
+        ),
+      ],
     );
   }
 }

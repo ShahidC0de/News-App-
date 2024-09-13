@@ -14,11 +14,15 @@ class RelatedNewsBloc extends Bloc<RelatedNewsEvent, RelatedNewsState> {
         super(RelatedNewsInitial()) {
     on<FetchingRelatedNews>((event, emit) async {
       emit(RelatedNewsLoading());
+
       final response = await _fetchTheRelatedNews(RelatedNewsParams(
           description: event.description, title: event.title));
-      response.fold(
-          (failure) => emit(RelatedNewsFailure(message: failure.message)),
-          (response) => emit(RelatedNewsSuccess(newsList: response)));
+
+      response.fold((failure) {
+        emit(RelatedNewsFailure(message: failure.message));
+      }, (response) {
+        emit(RelatedNewsSuccess(newsList: response));
+      });
     });
   }
 }
