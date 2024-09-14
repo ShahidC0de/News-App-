@@ -6,6 +6,11 @@ import 'package:news_app/features/auth/domain/repository/auth_repository.dart';
 import 'package:news_app/features/auth/domain/usecase/sign_in.dart';
 import 'package:news_app/features/auth/domain/usecase/sign_up.dart';
 import 'package:news_app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:news_app/features/categoryview/data/category_news_data_source_impl.dart';
+import 'package:news_app/features/categoryview/data/repository/category_news_repository_impl.dart';
+import 'package:news_app/features/categoryview/domain/repository/category_news_repository.dart';
+import 'package:news_app/features/categoryview/domain/usecase/category_news_usecase.dart';
+import 'package:news_app/features/categoryview/presentation/bloc/category_bloc.dart';
 import 'package:news_app/features/home/data/data_source/home_remote_datasource.dart';
 import 'package:news_app/features/home/data/data_source/repository/home_repository_impl.dart';
 import 'package:news_app/features/home/domain/repository/home_repository.dart';
@@ -25,6 +30,7 @@ Future<void> initDependencies() async {
   _initAuth();
   _initNewsBloc();
   _initRelatedNewsBloc();
+  _initCategoryBloc();
   final supabase = await Supabase.initialize(
     anonKey: annonKey,
     url: url,
@@ -98,7 +104,7 @@ void _initNewsBloc() {
   );
 }
 
-void _initRelatedNewsBloc() async {
+void _initRelatedNewsBloc() {
   serviceLocator.registerFactory<RelatedNewsRemoteDataSource>(() =>
       RelatedNewsRemoteDataSourceImpl(
           httpClient: serviceLocator(), apiKey: newsAPIKey));
@@ -108,4 +114,16 @@ void _initRelatedNewsBloc() async {
       () => FetchTheRelatedNews(relatedNewsRepository: serviceLocator()));
   serviceLocator.registerLazySingleton(
       () => RelatedNewsBloc(fetchTherelatedNews: serviceLocator()));
+}
+
+void _initCategoryBloc() {
+  serviceLocator.registerFactory<CategoryNewsDataSource>(() =>
+      CategoryNewsRemoteDataSouceImpl(
+          apiKey: newsAPIKey, httpClient: serviceLocator()));
+  serviceLocator.registerFactory<CategoryNewsRepository>(() =>
+      CategoryNewsRepositoryImpl(categoryNewsDataSource: serviceLocator()));
+  serviceLocator.registerFactory(
+      () => CategoryNewsUsecase(categoryNewsRepository: serviceLocator()));
+  serviceLocator.registerFactory(
+      () => CategoryBloc(categoriesNewsUsecase: serviceLocator()));
 }

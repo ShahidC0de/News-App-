@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/common/widgets/loader.dart';
 import 'package:news_app/core/theme/app_colors.dart';
 import 'package:news_app/core/utils/show_snackbar.dart';
+import 'package:news_app/features/categoryview/presentation/pages/category_view_page.dart';
 import 'package:news_app/features/home/presentation/bloc/general_news_bloc_bloc.dart';
 import 'package:news_app/features/home/presentation/bloc/home_bloc.dart';
 import 'package:news_app/features/news_view/presentation/pages/news_view.dart';
@@ -18,6 +19,23 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late PageController _pageController;
   late Timer _timer;
+
+  // Sample categories and channels data (you can replace these with dynamic data later)
+  final List<String> categories = [
+    'Technology',
+    'Sports',
+    'Health',
+    'Business',
+    'Entertainment'
+  ];
+
+  final List<String> channels = [
+    'CNN',
+    'BBC',
+    'Fox News',
+    'Al Jazeera',
+    'Sky News'
+  ];
 
   @override
   void initState() {
@@ -54,6 +72,59 @@ class _HomePageState extends State<HomePage> {
         title: const Text('N E W S'),
         centerTitle: true,
         backgroundColor: AppColors.borderColor,
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: AppColors.borderColor,
+              ),
+              child: Text(
+                'Categories & Channels',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            // Categories section
+            const ListTile(
+              title: Text(
+                'Categories',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ),
+            ...categories.map((category) => ListTile(
+                  title: Text(category),
+                  leading: const Icon(Icons.category),
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            CategoryViewPage(categoryName: category)));
+                    // You can add logic to show news by selected category here
+                  },
+                )),
+            const Divider(),
+            // Channels section
+            const ListTile(
+              title: Text(
+                'Channels',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ),
+            ...channels.map((channel) => ListTile(
+                  title: Text(channel),
+                  leading: const Icon(Icons.tv),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    // You can add logic to show news by selected channel here
+                  },
+                )),
+          ],
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -100,7 +171,7 @@ class _HomePageState extends State<HomePage> {
         }
         if (state is HomeTopHeadlinesSuccess) {
           return SizedBox(
-            height: 250, // Adjust the height to make it prominent
+            height: 250,
             child: Stack(
               children: [
                 PageView.builder(
@@ -115,7 +186,6 @@ class _HomePageState extends State<HomePage> {
                       },
                       child: Stack(
                         children: [
-                          // Background image for the headline
                           Positioned.fill(
                             child: Image.network(
                               news.urlToImage?.isNotEmpty == true
@@ -124,7 +194,6 @@ class _HomePageState extends State<HomePage> {
                               fit: BoxFit.cover,
                             ),
                           ),
-                          // Gradient overlay to make text readable
                           Positioned.fill(
                             child: Container(
                               decoration: BoxDecoration(
@@ -139,7 +208,6 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                           ),
-                          // Headline title overlay
                           Positioned(
                             bottom: 16.0,
                             left: 16.0,
@@ -167,7 +235,6 @@ class _HomePageState extends State<HomePage> {
                     );
                   },
                 ),
-                // Add PageView indicator
                 Positioned(
                   bottom: 8.0,
                   right: 16.0,
