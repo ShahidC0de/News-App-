@@ -5,6 +5,7 @@ import 'package:news_app/common/widgets/loader.dart';
 import 'package:news_app/core/theme/app_colors.dart';
 import 'package:news_app/core/utils/show_snackbar.dart';
 import 'package:news_app/features/categoryview/presentation/pages/category_view_page.dart';
+import 'package:news_app/features/channelview/presentation/pages/channel_news_page.dart';
 import 'package:news_app/features/home/presentation/bloc/general_news_bloc_bloc.dart';
 import 'package:news_app/features/home/presentation/bloc/home_bloc.dart';
 import 'package:news_app/features/news_view/presentation/pages/news_view.dart';
@@ -119,7 +120,10 @@ class _HomePageState extends State<HomePage> {
                   title: Text(channel),
                   leading: const Icon(Icons.tv),
                   onTap: () {
-                    Navigator.of(context).pop();
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            ChannelNewsPage(channelName: channel)));
+                    print('Channel: ${channel}');
                     // You can add logic to show news by selected channel here
                   },
                 )),

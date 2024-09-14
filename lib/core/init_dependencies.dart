@@ -11,6 +11,11 @@ import 'package:news_app/features/categoryview/data/repository/category_news_rep
 import 'package:news_app/features/categoryview/domain/repository/category_news_repository.dart';
 import 'package:news_app/features/categoryview/domain/usecase/category_news_usecase.dart';
 import 'package:news_app/features/categoryview/presentation/bloc/category_bloc.dart';
+import 'package:news_app/features/channelview/data/channel_remote_data_source_imp.dart';
+import 'package:news_app/features/channelview/data/repository/channel_news_repositoryimp.dart';
+import 'package:news_app/features/channelview/domain/repository/channel_news_repository.dart';
+import 'package:news_app/features/channelview/domain/usecase/channel_news.dart';
+import 'package:news_app/features/channelview/presentation/bloc/channel_bloc.dart';
 import 'package:news_app/features/home/data/data_source/home_remote_datasource.dart';
 import 'package:news_app/features/home/data/data_source/repository/home_repository_impl.dart';
 import 'package:news_app/features/home/domain/repository/home_repository.dart';
@@ -31,6 +36,7 @@ Future<void> initDependencies() async {
   _initNewsBloc();
   _initRelatedNewsBloc();
   _initCategoryBloc();
+  _initChannelBloc();
   final supabase = await Supabase.initialize(
     anonKey: annonKey,
     url: url,
@@ -124,6 +130,18 @@ void _initCategoryBloc() {
       CategoryNewsRepositoryImpl(categoryNewsDataSource: serviceLocator()));
   serviceLocator.registerFactory(
       () => CategoryNewsUsecase(categoryNewsRepository: serviceLocator()));
-  serviceLocator.registerFactory(
+  serviceLocator.registerLazySingleton(
       () => CategoryBloc(categoriesNewsUsecase: serviceLocator()));
+}
+
+void _initChannelBloc() {
+  serviceLocator.registerFactory<ChannelRemoteDataSource>(() =>
+      ChannelRemoteDataSourceImp(
+          httpClient: serviceLocator(), apiKey: newsAPIKey));
+  serviceLocator.registerFactory<ChannelNewsRepository>(() =>
+      ChannelNewsRepositoryimp(channelRemoteDataSource: serviceLocator()));
+  serviceLocator.registerFactory(
+      () => ChannelNewssUsecase(channelNewsRepository: serviceLocator()));
+  serviceLocator.registerLazySingleton(
+      () => ChannelBloc(channelNewssUsecase: serviceLocator()));
 }
