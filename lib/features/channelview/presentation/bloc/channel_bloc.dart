@@ -1,5 +1,6 @@
+// ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/material.dart';
 import 'package:news_app/common/entities/news.dart';
 import 'package:news_app/features/channelview/domain/usecase/channel_news.dart';
 
@@ -16,9 +17,8 @@ class ChannelBloc extends Bloc<ChannelEvent, ChannelState> {
       emit(ChannelLoading());
       final response = await _channelNewssUsecase(
           ChannelNewsUserInputParams(channelName: event.channelName));
-      print('ChannelBloc Response: ${response}');
       response.fold((l) => emit(ChannelFailure(message: l.message)),
-          (r) => ChannelSuccess(newsList: r));
+          (r) => emit(ChannelSuccess(newsList: r)));
     });
   }
 }

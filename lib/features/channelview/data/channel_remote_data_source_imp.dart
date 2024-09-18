@@ -19,9 +19,7 @@ class ChannelRemoteDataSourceImp implements ChannelRemoteDataSource {
       String channelName) async {
     String apiKeyy =
         'https://newsapi.org/v2/top-headlines?sources=$channelName&apiKey=$apiKey';
-    print("API_KEY: ${apiKeyy}");
     final response = await fetchNews(apiKeyy, httpClient);
-    print('response: ${response.map((news) => news.toString()).toList()}');
 
     return response;
   }

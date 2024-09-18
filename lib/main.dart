@@ -9,6 +9,7 @@ import 'package:news_app/features/channelview/presentation/bloc/channel_bloc.dar
 import 'package:news_app/features/home/presentation/bloc/general_news_bloc_bloc.dart';
 import 'package:news_app/features/home/presentation/bloc/home_bloc.dart';
 import 'package:news_app/features/news_view/presentation/bloc/related_news_bloc.dart';
+import 'package:news_app/features/search_view/presentation/bloc/search_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +27,7 @@ void main() async {
       BlocProvider(create: (_) => serviceLocator<RelatedNewsBloc>()),
       BlocProvider(create: (_) => serviceLocator<CategoryBloc>()),
       BlocProvider(create: (_) => serviceLocator<ChannelBloc>()),
+      BlocProvider(create: (_) => serviceLocator<SearchBloc>()),
     ],
     child: const MyApp(),
   ));

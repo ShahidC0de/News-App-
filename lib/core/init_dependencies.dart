@@ -27,6 +27,11 @@ import 'package:news_app/features/news_view/data/repository/related_news_reposit
 import 'package:news_app/features/news_view/domain/repository/related_news_repository.dart';
 import 'package:news_app/features/news_view/presentation/bloc/related_news_bloc.dart';
 import 'package:news_app/features/news_view/presentation/use_case/use_case.dart';
+import 'package:news_app/features/search_view/data/repository/search_news_repository_imp.dart';
+import 'package:news_app/features/search_view/data/search_news_remote_data_impl.dart';
+import 'package:news_app/features/search_view/domain/repository/search_news_repository.dart';
+import 'package:news_app/features/search_view/domain/usecase/searchbased_news_use_case.dart';
+import 'package:news_app/features/search_view/presentation/bloc/search_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:http/http.dart' as http;
 
@@ -37,6 +42,7 @@ Future<void> initDependencies() async {
   _initRelatedNewsBloc();
   _initCategoryBloc();
   _initChannelBloc();
+  _initSearchBloc();
   final supabase = await Supabase.initialize(
     anonKey: annonKey,
     url: url,
@@ -144,4 +150,16 @@ void _initChannelBloc() {
       () => ChannelNewssUsecase(channelNewsRepository: serviceLocator()));
   serviceLocator.registerLazySingleton(
       () => ChannelBloc(channelNewssUsecase: serviceLocator()));
+}
+
+void _initSearchBloc() {
+  serviceLocator.registerFactory<SearchNewsRemoteData>(() =>
+      SearchNewsRemoteDataImpl(
+          httpClient: serviceLocator(), apiKey: newsAPIKey));
+  serviceLocator.registerFactory<SearchNewsRepository>(
+      () => SearchNewsRepositoryImp(searchNewsRemoteData: serviceLocator()));
+  serviceLocator.registerFactory(
+      () => SearchUseCase(searchNewsRepository: serviceLocator()));
+  serviceLocator
+      .registerLazySingleton(() => SearchBloc(searchUsecase: serviceLocator()));
 }

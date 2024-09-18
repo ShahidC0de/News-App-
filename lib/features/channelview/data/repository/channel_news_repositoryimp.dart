@@ -1,5 +1,4 @@
-import 'package:fpdart/src/either.dart';
-import 'package:news_app/common/entities/news.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:news_app/common/models/news_model.dart';
 import 'package:news_app/core/errors/exceptions.dart';
 import 'package:news_app/core/errors/failure.dart';

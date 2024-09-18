@@ -25,8 +25,10 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDatasource {
 
   @override
   Future<List<NewsModel>> fetchTopHeadlines() async {
-    return fetchNews(
+    final response = fetchNews(
         'https://newsapi.org/v2/top-headlines?language=en&apiKey=$apikey',
         httpClient);
+    print(response);
+    return response;
   }
 }

@@ -11,6 +11,7 @@ Future<List<NewsModel>> fetchNews(
   try {
     final uri = Uri.parse(endPoint);
     final response = await httpClient.get(uri);
+    print(response.statusCode);
 
     if (response.statusCode == 200) {
       final jsonString = response.body;

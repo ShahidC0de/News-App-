@@ -6,9 +6,12 @@ import 'package:news_app/core/theme/app_colors.dart';
 import 'package:news_app/core/utils/show_snackbar.dart';
 import 'package:news_app/features/categoryview/presentation/pages/category_view_page.dart';
 import 'package:news_app/features/channelview/presentation/pages/channel_news_page.dart';
+import 'package:news_app/features/channelview/presentation/widgets/searched_news_item.dart';
 import 'package:news_app/features/home/presentation/bloc/general_news_bloc_bloc.dart';
 import 'package:news_app/features/home/presentation/bloc/home_bloc.dart';
+import 'package:news_app/features/home/presentation/widgets/search_field.dart';
 import 'package:news_app/features/news_view/presentation/pages/news_view.dart';
+import 'package:news_app/features/search_view/presentation/bloc/search_bloc.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,6 +21,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  TextEditingController searchtextEditingController = TextEditingController();
   late PageController _pageController;
   late Timer _timer;
 
@@ -64,6 +68,7 @@ class _HomePageState extends State<HomePage> {
     _timer.cancel();
     _pageController.dispose();
     super.dispose();
+    searchtextEditingController.dispose();
   }
 
   @override
@@ -123,7 +128,6 @@ class _HomePageState extends State<HomePage> {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) =>
                             ChannelNewsPage(channelName: channel)));
-                    print('Channel: ${channel}');
                     // You can add logic to show news by selected channel here
                   },
                 )),
@@ -148,9 +152,45 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
+            CustomTextField(
+                onchanged: (value) {
+                  if (value.isNotEmpty) {
+                    setState(() {
+                      context
+                          .read<SearchBloc>()
+                          .add(SearchingTextEvent(searchText: value));
+                    });
+                  } else {
+                    setState(() {
+                      // still work to do here.....
+                    });
+                  }
+                },
+                controller: searchtextEditingController,
+                hintText: 'Search here',
+                labelText: 'Search'),
 
-            // General News Section
-            _buildGeneralNewsSection(context),
+            searchtextEditingController.text.isEmpty
+                ?
+
+                // General News Section
+                _buildGeneralNewsSection(context)
+                : BlocConsumer<SearchBloc, SearchState>(
+                    builder: (context, state) {
+                      if (state is SearchLoading) {
+                        return const Loader();
+                      }
+                      if (state is SearchedSuccess) {
+                        return SearchedNewsItem(newsList: state.newsList);
+                      }
+                      return const SizedBox();
+                    },
+                    listener: (context, state) {
+                      if (state is SearchFailure) {
+                        showSnackBar(context, state.message);
+                      }
+                    },
+                  )
           ],
         ),
       ),
