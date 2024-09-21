@@ -18,9 +18,8 @@ class _ChannelNewsPageState extends State<ChannelNewsPage> {
   final Map<String, String> channelMap = {
     'CNN': 'cnn',
     'BBC': 'bbc-news',
-    'Fox News': 'fox',
-    'Al Jazeera': 'aljazeera',
-    'Sky News': 'sky'
+    'Fox News': 'fox-news',
+    'Al Jazeera': 'al-jazeera-english',
   };
 
   String checkTheChannelName(String channelName) {

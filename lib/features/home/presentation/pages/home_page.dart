@@ -25,7 +25,6 @@ class _HomePageState extends State<HomePage> {
   late PageController _pageController;
   late Timer _timer;
 
-  // Sample categories and channels data (you can replace these with dynamic data later)
   final List<String> categories = [
     'Technology',
     'Sports',
@@ -39,7 +38,6 @@ class _HomePageState extends State<HomePage> {
     'BBC',
     'Fox News',
     'Al Jazeera',
-    'Sky News'
   ];
 
   @override

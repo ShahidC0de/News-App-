@@ -1,5 +1,5 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
-import 'package:news_app/core/app_secrets/secrets.dart';
 import 'package:news_app/features/auth/data/auth/data_source/auth_remote_datasource.dart';
 import 'package:news_app/features/auth/data/auth/data_source/repositories/auth_repository_impl.dart';
 import 'package:news_app/features/auth/domain/repository/auth_repository.dart';
@@ -37,6 +37,8 @@ import 'package:http/http.dart' as http;
 
 final serviceLocator = GetIt.instance;
 Future<void> initDependencies() async {
+  final supabaseUrl = dotenv.env['SUPABASE_URL'] ?? "";
+  final anonKey = dotenv.env['SUPABASE_ANON_KEY'] ?? "";
   _initAuth();
   _initNewsBloc();
   _initRelatedNewsBloc();
@@ -44,8 +46,8 @@ Future<void> initDependencies() async {
   _initChannelBloc();
   _initSearchBloc();
   final supabase = await Supabase.initialize(
-    anonKey: annonKey,
-    url: url,
+    anonKey: anonKey,
+    url: supabaseUrl,
   );
   serviceLocator.registerLazySingleton(
     () => supabase.client,
@@ -81,11 +83,13 @@ void _initAuth() {
   );
 }
 
+final _newsAPIKey = dotenv.env['NEWS_API_KEY'] ?? "";
+
 void _initNewsBloc() {
   serviceLocator.registerLazySingleton(() => http.Client());
   serviceLocator.registerFactory<HomeRemoteDatasource>(
     () => HomeRemoteDataSourceImpl(
-      apikey: newsAPIKey,
+      apikey: _newsAPIKey,
       httpClient: serviceLocator<http.Client>(),
     ),
   );
@@ -119,7 +123,7 @@ void _initNewsBloc() {
 void _initRelatedNewsBloc() {
   serviceLocator.registerFactory<RelatedNewsRemoteDataSource>(() =>
       RelatedNewsRemoteDataSourceImpl(
-          httpClient: serviceLocator(), apiKey: newsAPIKey));
+          httpClient: serviceLocator(), apiKey: _newsAPIKey));
   serviceLocator.registerFactory<RelatedNewsRepository>(() =>
       RelatedNewsRepositoryImpl(relatedNewsRemoteDataSource: serviceLocator()));
   serviceLocator.registerFactory(
@@ -131,7 +135,7 @@ void _initRelatedNewsBloc() {
 void _initCategoryBloc() {
   serviceLocator.registerFactory<CategoryNewsDataSource>(() =>
       CategoryNewsRemoteDataSouceImpl(
-          apiKey: newsAPIKey, httpClient: serviceLocator()));
+          apiKey: _newsAPIKey, httpClient: serviceLocator()));
   serviceLocator.registerFactory<CategoryNewsRepository>(() =>
       CategoryNewsRepositoryImpl(categoryNewsDataSource: serviceLocator()));
   serviceLocator.registerFactory(
@@ -143,7 +147,7 @@ void _initCategoryBloc() {
 void _initChannelBloc() {
   serviceLocator.registerFactory<ChannelRemoteDataSource>(() =>
       ChannelRemoteDataSourceImp(
-          httpClient: serviceLocator(), apiKey: newsAPIKey));
+          httpClient: serviceLocator(), apiKey: _newsAPIKey));
   serviceLocator.registerFactory<ChannelNewsRepository>(() =>
       ChannelNewsRepositoryimp(channelRemoteDataSource: serviceLocator()));
   serviceLocator.registerFactory(
@@ -155,7 +159,7 @@ void _initChannelBloc() {
 void _initSearchBloc() {
   serviceLocator.registerFactory<SearchNewsRemoteData>(() =>
       SearchNewsRemoteDataImpl(
-          httpClient: serviceLocator(), apiKey: newsAPIKey));
+          httpClient: serviceLocator(), apiKey: _newsAPIKey));
   serviceLocator.registerFactory<SearchNewsRepository>(
       () => SearchNewsRepositoryImp(searchNewsRemoteData: serviceLocator()));
   serviceLocator.registerFactory(
