@@ -24,7 +24,7 @@ This project is developed using proper architecture that includes BLoc (State Ma
 4. install dependencies 'flutter pub get'.
 5. Run the flutter app "flutter run".
 # Contribution Guidelines
-  Thank you for considering contributing to the TechTrove Admin project! Contributions are welcomed and encouraged from everyone. To maintain positive and collaborative environment, please adhere the       following guidelines.
+  Thank you for considering contributing to the "News App"! Contributions are welcomed and encouraged from everyone. To maintain positive and collaborative environment, please adhere the       following guidelines.
 # Issue Reporting
 If you encounter any bugs, glitches, or other issues, please report them by creating a detailed issue on the GitHub repository. Include steps to reproduce the issue, expected behavior, and any relevant screenshots or error messages.
 # Pull Requests
